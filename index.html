@@ -10,8 +10,8 @@
     <table class="main-table" id="po-table" border="1">
         <tbody>
             <tr class="table-header">
-                <td>#</td>
-                <td>Course Code</td>
+                <td>Sector</td>
+                <td>Dosis</td>
                 <td>Course Name</td>
                 <td>PO 1</td>
                 <td>PO 2</td>
@@ -49,20 +49,26 @@
 <script>
 var table = document.getElementById("po-table");
 
+function change(val){
+    console.log(val.value);
+}
+
 function addRow() {
     
     var lastrow = table.rows.length;
 	var lastcol = table.rows[0].cells.length;	
-	var row = table.insertRow(lastrow);	console.log(lastrow);
+	var row = table.insertRow(lastrow);
 	var cellcol0 = row.insertCell(0);
-	cellcol0.innerHTML = '<input type="text" name="course_code'+lastrow+'"></input>';
+	cellcol0.innerHTML = lastrow;
 	var cellcol1 = row.insertCell(1);
-	cellcol1.innerHTML = "<input type='text' name='course_name[]'></input>";
+	cellcol1.innerHTML = '<input type="text" name="course_code'+lastrow+'" onkeyup="change(this)"></input>';
+	var cellcol2 = row.insertCell(2);
+	cellcol2.innerHTML = '<input type="text" name="course_name'+lastrow+'"></input>';
 	
-	for(i=2; i<lastcol;i++)
+	for(i=3; i<lastcol;i++)
 	{
 		var cell1 = row.insertCell(i);
-		cell1.innerHTML = "<input type='checkbox' name='pos[]'></input>";
+		cell1.innerHTML = '<input type="checkbox" name="pos'+(i-2)+'"></input>';
 	}
     
 }
@@ -82,7 +88,7 @@ function addCol() {
 		if(i==0)
 			cell1.innerHTML = "PO " + (Number(headernum)+1);
 		else
-			cell1.innerHTML = "<input type='checkbox' name='pos[]'></input>";
+			cell1.innerHTML = '<input type="checkbox" name="pos'+(Number(headernum)+1)+'"></input>';
 		
 	}
 }
