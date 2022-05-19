@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table class="main-table" id="po-table" border="1">
+        <tbody>
+            <tr class="table-header">
+                <td>#</td>
+                <td>Course Code</td>
+                <td>Course Name</td>
+                <td>PO 1</td>
+                <td>PO 2</td>
+                <td>PO 3</td>
+                <td>PO 4</td>
+                <td>PO 5</td>
+                <td>PO 6</td>
+                <td>PO 7</td>
+                <td>PO 8</td>
+                <td>PO 9</td>
+            </tr>
+            <tr class="default-row">
+                <td>1</td>
+                <td><input type="text" name="course_code[]"></td>
+                <td><input type="text" name="course_name[]"></td>
+                <td><input type="checkbox" name="po1[]" value="Po1"></td>
+                <td><input type="checkbox" name="po2[]" value="Po2"></td>
+                <td><input type="checkbox" name="po3[]" value="Po3"></td>
+                <td><input type="checkbox" name="po4[]" value="Po4"></td>
+                <td><input type="checkbox" name="po5[]" value="Po5"></td>
+                <td><input type="checkbox" name="po6[]" value="Po6"></td>
+                <td><input type="checkbox" name="po7[]" value="Po7"></td>
+                <td><input type="checkbox" name="po8[]" value="Po8"></td>
+                <td><input type="checkbox" name="po9[]" value="Po9"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="addRow()">Add Row</button>
+<button onclick="addCol()">Add Column</button>
+
+
+<button onclick="removeRow()">Remove Row</button>
+<button onclick="removeCol()">Remove Column</button>
+
+<script>
+var table = document.getElementById("po-table");
+
+function addRow() {
+    
+    var lastrow = table.rows.length;
+	var lastcol = table.rows[0].cells.length;	
+	var row = table.insertRow(lastrow);	console.log(lastrow);
+	var cellcol0 = row.insertCell(0);
+	cellcol0.innerHTML = '<input type="text" name="course_code'+lastrow+'"></input>';
+	var cellcol1 = row.insertCell(1);
+	cellcol1.innerHTML = "<input type='text' name='course_name[]'></input>";
+	
+	for(i=2; i<lastcol;i++)
+	{
+		var cell1 = row.insertCell(i);
+		cell1.innerHTML = "<input type='checkbox' name='pos[]'></input>";
+	}
+    
+}
+function addCol() {
+    
+    var lastrow = table.rows.length;
+	var lastcol = table.rows[0].cells.length;
+	var headertxt = table.rows[0].cells[lastcol-1].innerHTML;
+	var headernum = headertxt.slice(headertxt.indexOf("PO")+2);
+	headernum = headernum.trim();
+	
+    //for each row add column
+	for(i=0; i<lastrow;i++)
+	{
+		
+		var cell1 = table.rows[i].insertCell(lastcol);
+		if(i==0)
+			cell1.innerHTML = "PO " + (Number(headernum)+1);
+		else
+			cell1.innerHTML = "<input type='checkbox' name='pos[]'></input>";
+		
+	}
+}
+
+function removeRow(){
+	var lastrow = table.rows.length;
+	if(lastrow<2){
+		alert("You have reached the minimal required rows.");
+		return;
+	}
+	table.deleteRow(lastrow-1);
+}
+
+function removeCol(){
+
+	var lastcol = (table.rows[0].cells.length)-1;
+	var lastrow = (table.rows.length);
+	//disallow first two column removal unless code is add to re-add text box columns vs checkbox columns
+	if(lastcol<3){
+		alert("You have reached the minimal required columns.");
+		return;
+	}
+	
+	 //for each row remove column
+	for(i=0; i<lastrow;i++)
+	{
+		table.rows[i].deleteCell(lastcol);
+	}
+}
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</body>
+</html>
